@@ -1,6 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { FaEnvelope, FaPaperPlane } from 'react-icons/fa';
+import { motion } from "framer-motion";
+import { MessageSquare, Mail, Phone, MapPin } from "lucide-react";
 
 const Contact: React.FC = () => {
     const sectionRef = useRef<HTMLElement>(null);
@@ -45,58 +47,134 @@ const Contact: React.FC = () => {
                 </p>
             </div>
             
-            <div className="max-w-2xl mx-auto mt-16">
-                <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6">
-                    <div className="form-field">
-                        <label htmlFor="name" className="sr-only">Name</label>
-                        <input 
-                            type="text" 
-                            name="name" 
-                            id="name"
-                            placeholder="Your Name"
-                            required
-                            className="w-full bg-black/30 border border-[#2e2e2e] rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300"
-                        />
-                    </div>
-                    <div className="form-field">
-                        <label htmlFor="email" className="sr-only">Email</label>
-                        <input 
-                            type="email" 
-                            name="email" 
-                            id="email"
-                            placeholder="Your Email"
-                            required
-                            className="w-full bg-black/30 border border-[#2e2e2e] rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300"
-                        />
-                    </div>
-                    <div className="form-field">
-                        <label htmlFor="message" className="sr-only">Message</label>
-                        <textarea 
-                            name="message" 
-                            id="message" 
-                            rows={5}
-                            placeholder="Tell us about your project..."
-                            required
-                            className="w-full bg-black/30 border border-[#2e2e2e] rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 resize-none"
-                        ></textarea>
-                    </div>
-                    <div className="form-field text-center">
-                        <button 
-                            type="submit"
-                            className="group relative inline-flex items-center justify-center bg-white text-black font-bold py-4 px-10 rounded-full hover-target transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]"
-                        >
-                            <span className="mr-2">Send Message</span>
-                            <FaPaperPlane />
-                        </button>
-                    </div>
-                </form>
+            <div className="max-w-7xl mx-auto mt-16">
+            <div className="min-h-screen  flex items-center justify-center px-6 py-20">
+      <motion.div
+        className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl w-full"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
+        {/* WhatsApp Card */}
+        <motion.div
+          className="rounded-2xl bg-gradient-to-br from-green-900 to-green-800 p-8 text-white shadow-2xl flex flex-col justify-between"
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: "spring", stiffness: 120 }}
+        >
+          <div>
+            <div className="flex items-center mb-4">
+              <MessageSquare className="text-green-400 mr-3" size={26} />
+              <h2 className="text-xl font-bold">Chat with us on WhatsApp</h2>
+            </div>
+
+            <p className="text-green-100 mb-6 leading-relaxed">
+              Get instant responses to your queries! Chat with us directly on
+              WhatsApp for quick project discussions, quotes, and support.
+            </p>
+
+            <div className="space-y-4">
+              <div className="bg-green-800/50 rounded-lg p-4 border border-green-600/30">
+                <h4 className="text-green-200 font-semibold mb-1">
+                  Quick Project Quote
+                </h4>
+                <p className="text-green-100 text-sm">
+                  Send us your project requirements and get a free quote within
+                  24 hours.
+                </p>
+              </div>
+
+              <div className="bg-green-800/50 rounded-lg p-4 border border-green-600/30">
+                <h4 className="text-green-200 font-semibold mb-1">
+                  24/7 Support
+                </h4>
+                <p className="text-green-100 text-sm">
+                  Need help with your existing website? We’re just a message
+                  away.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <a
+              href="https://wa.me/+919460701877?text=Hi! I'm interested in your web development services."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center gap-3 group"
+            >
+              <MessageSquare
+                size={20}
+                className="group-hover:scale-110 transition-transform"
+              />
+              Start WhatsApp Chat
+            </a>
+            <p className="text-green-200 text-sm text-center mt-3">
+              Click the button above to start a conversation with us on WhatsApp
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Right Section (Info + Guarantee) */}
+        <div className="flex flex-col gap-6">
+          {[
+            {
+              icon: <Mail className="text-green-400" size={22} />,
+              title: "Email Us",
+              info: "webierwebdev@gmail.com",
+            },
+            {
+              icon: <Phone className="text-blue-400" size={22} />,
+              title: "Call Us",
+              info: "+91 94607 01877 / +91 94140 41181",
+            },
+            {
+              icon: <MapPin className="text-purple-400" size={22} />,
+              title: "Visit Us",
+              info: "Udaipur, Rajasthan, India",
+            },
+          ].map((item, i) => (
+            <motion.div
+              key={i}
+              className="rounded-2xl bg-[#0f172a] p-6 text-white border border-white/5"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.2 + 0.4, duration: 0.6 }}
+              whileHover={{ scale: 1.03, rotate: 0.5 }}
+            >
+              <div className="flex items-center gap-4">
+                {item.icon}
+                <div>
+                  <h3 className="text-lg font-semibold">{item.title}</h3>
+                  <p className="text-gray-300 text-sm">{item.info}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+
+          <motion.div
+            className="rounded-2xl  bg-gradient-to-r from-green-900/30 to-blue-900/30 p-6 border border-green-600/20"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0, duration: 0.6 }}
+          >
+            <h3 className="text-lg font-semibold text-white mb-1">
+              Quick Response Guarantee
+            </h3>
+            <p className="text-gray-300 text-sm">
+              We typically respond to all inquiries within 24 hours. For urgent
+              projects, feel free to call us directly.
+            </p>
+          </motion.div>
+        </div>
+      </motion.div>
+    </div>
             </div>
 
             <div className="mt-20 text-center text-white/60">
                 <p>Or reach us directly at:</p>
                 <a href="mailto:hello@webier.com" className="font-space-grotesk text-lg text-purple-400 hover:text-white transition-colors duration-300 flex items-center justify-center gap-2 mt-2">
                     <FaEnvelope />
-                    <span>hello@webier.com</span>
+                    <span>webierwebdev@gmail.com</span>
                 </a>
             </div>
         </section>

@@ -8,7 +8,7 @@ import Achievements from './components/Achievements';
 import Qualities from './components/Qualities';
 import TechStack from './components/TechStack';
 import Contact from './components/Contact';
-import CustomCursor from './components/CustomCursor';
+
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import AuroraBackground from './components/AuroraBackground';
@@ -64,7 +64,7 @@ const App: React.FC = () => {
     <div ref={mainRef} className="bg-black">
       <AuroraBackground />
       <div className="grain-overlay"></div>
-      <CustomCursor />
+
       <Header />
       <main className="relative z-10">
         <Hero />

@@ -1,20 +1,39 @@
 import React, { useEffect, useRef } from 'react';
-import { FaReact, FaNodeJs, FaShopify, FaFigma } from 'react-icons/fa';
-import { SiGreensock } from "react-icons/si";
+import { FaReact, FaNodeJs, FaShopify, FaFigma, FaHtml5, FaCss3Alt, FaJsSquare, FaPython, FaGitAlt, FaGithub, } from 'react-icons/fa';
+import { SiGreensock, SiNextdotjs, SiMongodb, SiExpress, SiTypescript, SiTailwindcss, SiVercel, SiFirebase, SiFramer, SiCanva, SiPostman } from 'react-icons/si';
 import { gsap } from 'gsap';
+import { TbBrandThreejs } from 'react-icons/tb';
+
 
 const tech = [
-  { name: 'React', icon: <FaReact size={40} /> },
-  { name: 'GSAP', icon: <SiGreensock size={40} /> },
-  { name: 'Figma', icon: <FaFigma size={40} /> },
-  { name: 'Shopify', icon: <FaShopify size={40} /> },
-  { name: 'Node.js', icon: <FaNodeJs size={40} /> },
-  { name: 'React', icon: <FaReact size={40} /> },
-  { name: 'GSAP', icon: <SiGreensock size={40} /> },
-  { name: 'Figma', icon: <FaFigma size={40} /> },
-  { name: 'Shopify', icon: <FaShopify size={40} /> },
-  { name: 'Node.js', icon: <FaNodeJs size={40} /> },
-];
+    { name: 'React', icon: <FaReact size={40} /> },
+    { name: 'Next.js', icon: <SiNextdotjs size={40} /> },
+    { name: 'Node.js', icon: <FaNodeJs size={40} /> },
+    { name: 'Express.js', icon: <SiExpress size={40} /> },
+    { name: 'MongoDB', icon: <SiMongodb size={40} /> },
+    { name: 'Firebase', icon: <SiFirebase size={40} /> },
+    { name: 'Tailwind CSS', icon: <SiTailwindcss size={40} /> },
+    { name: 'JavaScript', icon: <FaJsSquare size={40} /> },
+    { name: 'TypeScript', icon: <SiTypescript size={40} /> },
+    { name: 'HTML5', icon: <FaHtml5 size={40} /> },
+    { name: 'CSS3', icon: <FaCss3Alt size={40} /> },
+    { name: 'GSAP', icon: <SiGreensock size={40} /> },
+    { name: 'Three.js', icon: <TbBrandThreejs size={40} /> },
+   
+    { name: 'Shopify', icon: <FaShopify size={40} /> },
+    { name: 'Figma', icon: <FaFigma size={40} /> },
+    { name: 'Framer Motion', icon: <SiFramer size={40} /> },
+    
+    { name: 'Canva', icon: <SiCanva size={40} /> },
+    
+    { name: 'Python', icon: <FaPython size={40} /> },
+    { name: 'Git', icon: <FaGitAlt size={40} /> },
+    { name: 'GitHub', icon: <FaGithub size={40} /> },
+    { name: 'Postman', icon: <SiPostman size={40} /> },
+ 
+    { name: 'Vercel', icon: <SiVercel size={40} /> },
+  ];
+  
 
 
 const TechStack: React.FC = () => {

@@ -6,12 +6,12 @@ const founders = [
     {
         name: 'Harshit',
         role: 'Co-Founder & Creative Developer',
-        quote: 'We don’t just write code; we compose digital experiences. Every line has a purpose, every interaction tells a part of the story.'
+        quote: 'I don’t just build websites  I build moments that glitch your brain (in a good way). Pixels? I make them dance. Code? That’s just my paintbrush'
     },
     {
         name: 'Ashwin',
         role: 'Co-Founder & Lead Strategist',
-        quote: 'Our goal is to find the perfect synergy between a brilliant idea and flawless execution. That’s where the magic happens.'
+        quote: 'I’m the blueprint guy. I turn chaos into clean flow. Ideas come messy  I make them move like they were always meant to.'
     }
 ];
 
@@ -30,25 +30,27 @@ const About: React.FC = () => {
     const sectionRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
-        const ctx = gsap.context(() => {
-            gsap.fromTo(sectionRef.current?.querySelectorAll('.founder-card'),
-                { y: 50, autoAlpha: 0 },
-                {
-                    y: 0,
-                    autoAlpha: 1,
-                    duration: 1.2,
-                    ease: 'power3.out',
-                    stagger: 0.2,
-                    scrollTrigger: {
-                        trigger: sectionRef.current,
-                        start: 'top 60%',
-                        toggleActions: 'play none none reverse',
-                    }
-                }
-            );
-        }, sectionRef);
-
-        return () => ctx.revert();
+      const ctx = gsap.context(() => {
+        gsap.fromTo(
+          '.founder-card',
+          { y: 20, autoAlpha: 0 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: 0.5,
+            ease: 'power2.out',
+            stagger: 0.1,
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 95%', // triggers almost immediately when section enters
+              toggleActions: 'play none none none',
+              once: true, // plays only once
+            },
+          }
+        );
+      }, sectionRef);
+    
+      return () => ctx.revert();
     }, []);
 
   return (
@@ -67,7 +69,6 @@ const About: React.FC = () => {
         <div className="h-full flex justify-center items-center perspective-[1000px]">
           <Interactive3DElement />
         </div>
-
       </div>
     </section>
   );
