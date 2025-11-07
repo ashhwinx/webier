@@ -13,14 +13,28 @@ const Hero: React.FC = () => {
       tl.fromTo(
         ".glow-arc",
         { scale: 0.5, opacity: 0, rotate: -45 },
-        { scale: 1, opacity: 1, rotate: 0, duration: 2, ease: "power3.out", stagger: 0.2 }
+        {
+          scale: 1,
+          opacity: 1,
+          rotate: 0,
+          duration: 2,
+          ease: "power3.out",
+          stagger: 0.2,
+        }
       );
 
       // Letters animation
       tl.fromTo(
         ".hero-letter",
         { opacity: 0, y: 0, scale: 0.5 },
-        { opacity: 1, y: 0, scale: 1, duration: 1, ease: "back.out(1.7)", stagger: 0.1 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1,
+          ease: "back.out(1.7)",
+          stagger: 0.1,
+        },
         "-=1.5"
       );
 
@@ -35,21 +49,47 @@ const Hero: React.FC = () => {
       // Constellation animation
       tl.fromTo(
         ".constellation-line",
-        { strokeDashoffset: gsap.getProperty(".constellation-line", "strokeDasharray") },
-        { strokeDashoffset: 0, duration: 2, ease: "power2.inOut", stagger: 0.1 },
+        {
+          strokeDashoffset: gsap.getProperty(
+            ".constellation-line",
+            "strokeDasharray"
+          ),
+        },
+        {
+          strokeDashoffset: 0,
+          duration: 2,
+          ease: "power2.inOut",
+          stagger: 0.1,
+        },
         "-=2"
       );
 
       tl.fromTo(
         ".constellation-dot",
         { scale: 0, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 1, ease: "back.out(2)", stagger: 0.05 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 1,
+          ease: "back.out(2)",
+          stagger: 0.05,
+        },
         "-=1.5"
       );
 
       // Continuous rotation
-      gsap.to(".glow-arc-1", { rotate: "+=360", duration: 80, repeat: -1, ease: "none" });
-      gsap.to(".glow-arc-2", { rotate: "-=360", duration: 60, repeat: -1, ease: "none" });
+      gsap.to(".glow-arc-1", {
+        rotate: "+=360",
+        duration: 80,
+        repeat: -1,
+        ease: "none",
+      });
+      gsap.to(".glow-arc-2", {
+        rotate: "-=360",
+        duration: 60,
+        repeat: -1,
+        ease: "none",
+      });
       gsap.to(".constellation-dot", {
         scale: 1.3,
         opacity: 0.7,
@@ -66,9 +106,19 @@ const Hero: React.FC = () => {
         const xPercent = (e.clientX / window.innerWidth - 0.5) * 2;
         const yPercent = (e.clientY / window.innerHeight - 0.5) * 2;
 
-        gsap.to(".parallax-layer-1", { x: -xPercent * 10, y: -yPercent * 10, duration: 1, ease: "power2.out" });
+        gsap.to(".parallax-layer-1", {
+          x: -xPercent * 10,
+          y: -yPercent * 10,
+          duration: 1,
+          ease: "power2.out",
+        });
         // gsap.to(".parallax-layer-2", { x: -xPercent * 20, y: -yPercent * 20, duration: 1, ease: "power2.out" });
-        gsap.to(".parallax-layer-3", { x: xPercent * 15, y: yPercent * 15, duration: 1, ease: "power2.out" });
+        gsap.to(".parallax-layer-3", {
+          x: xPercent * 15,
+          y: yPercent * 15,
+          duration: 1,
+          ease: "power2.out",
+        });
       };
 
       window.addEventListener("mousemove", parallaxHandler);
@@ -105,10 +155,38 @@ const Hero: React.FC = () => {
         className="constellation-line"
         strokeDasharray="160"
       />
-      <circle cx="10" cy="80" r="2" fill="white" className="constellation-dot" filter="url(#glow)" />
-      <circle cx="80" cy="20" r="2" fill="white" className="constellation-dot" filter="url(#glow)" />
-      <circle cx="150" cy="100" r="3" fill="white" className="constellation-dot" filter="url(#glow)" />
-      <circle cx="80" cy="180" r="2" fill="white" className="constellation-dot" filter="url(#glow)" />
+      <circle
+        cx="10"
+        cy="80"
+        r="2"
+        fill="white"
+        className="constellation-dot"
+        filter="url(#glow)"
+      />
+      <circle
+        cx="80"
+        cy="20"
+        r="2"
+        fill="white"
+        className="constellation-dot"
+        filter="url(#glow)"
+      />
+      <circle
+        cx="150"
+        cy="100"
+        r="3"
+        fill="white"
+        className="constellation-dot"
+        filter="url(#glow)"
+      />
+      <circle
+        cx="80"
+        cy="180"
+        r="2"
+        fill="white"
+        className="constellation-dot"
+        filter="url(#glow)"
+      />
     </svg>
   );
 
@@ -123,7 +201,7 @@ const Hero: React.FC = () => {
         <div className="absolute top-[50%] left-[5%] w-[30vw] h-[30vh] opacity-50">
           <Constellation />
         </div>
-        <div className="absolute bottom-[10%] right-[5%] w-[30vw] h-[30vh] opacity-50 scale-x-[-1]">
+        <div className="absolute bottom-[10%] right-[5%] w-[3w] h-[30vh] opacity-50 scale-x-[-1]">
           <Constellation />
         </div>
       </div>
@@ -147,13 +225,16 @@ const Hero: React.FC = () => {
           {/* WEBIER text centered */}
           <div className="absolute flex items-center justify-center">
             {letters.map((letter, index) => {
-              const angle = -65 + index * 26;
+              // Shifted all angles by +3 degrees to move the word to the right
+              const angles = [-35, -18, -4, 10, 22, 36]; // Was: [-38, -21, -7, 7, 19, 33]
+              const angle = angles[index];
+
               return (
                 <span
                   key={index}
                   className="hero-letter absolute font-space-grotesk font-bold text-4xl sm:text-6xl md:text-8xl text-white"
                   style={{
-                    transform: `rotate(${angle}deg) translateY(-23vmin) rotate(${-angle}deg)`,
+                    transform: `rotate(${angle}deg) translateY(-40vmin) rotate(${-angle}deg)`,
                     transformOrigin: "center center",
                   }}
                 >
@@ -170,9 +251,14 @@ const Hero: React.FC = () => {
         <p className="text-base sm:text-xl md:text-2xl text-white/90 tracking-wider">
           WEB EXPERIENCES, PERFECTED.
         </p>
-        <button className="mt-2 sm:mt-8 bg-white text-black font-bold py-3 sm:py-4 px-8 sm:px-10 rounded-full hover-target transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]">
+        <a
+          href="https://api.whatsapp.com/send/?phone=%2B918209965066&text=Hi%21+I%27m+interested+in+your+web+development+services.&type=phone_number&app_absent=0"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-2 sm:mt-8 bg-white text-black font-bold py-3 sm:py-4 px-8 sm:px-10 rounded-full hover-target transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]"
+        >
           Start a Project
-        </button>
+        </a>
         <p className="mt-3 sm:mt-4 text-xs sm:text-sm text-white/60">
           Let's create something unforgettable.
         </p>

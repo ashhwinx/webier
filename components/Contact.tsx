@@ -1,184 +1,244 @@
-import React, { useRef, useEffect } from 'react';
-import { gsap } from 'gsap';
-import { FaEnvelope, FaPaperPlane } from 'react-icons/fa';
+import React, { useRef, useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "framer-motion";
-import { MessageSquare, Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
+
+// Register ScrollTrigger with GSAP
+gsap.registerPlugin(ScrollTrigger);
+
+// ------------------------------------------------------------------
+// CONSTELLATION COMPONENT (Copied from your Hero file for background)
+// ------------------------------------------------------------------
+const Constellation = () => (
+  <svg width="100%" height="100%" className="absolute inset-0">
+    <defs>
+      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
+        <feMerge>
+          <feMergeNode in="coloredBlur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+    <path
+      d="M10 80 L 80 20 L 150 100 L 80 180 Z"
+      stroke="rgba(255,255,255,0.3)"
+      strokeWidth="0.5"
+      fill="none"
+      className="constellation-line"
+      strokeDasharray="350"
+    />
+    <path
+      d="M80 20 L 80 180"
+      stroke="rgba(255,255,255,0.3)"
+      strokeWidth="0.5"
+      fill="none"
+      className="constellation-line"
+      strokeDasharray="160"
+    />
+    <circle
+      cx="10"
+      cy="80"
+      r="2"
+      fill="white"
+      className="constellation-dot"
+      filter="url(#glow)"
+    />
+    <circle
+      cx="80"
+      cy="20"
+      r="2"
+      fill="white"
+      className="constellation-dot"
+      filter="url(#glow)"
+    />
+    <circle
+      cx="150"
+      cy="100"
+      r="3"
+      fill="white"
+      className="constellation-dot"
+      filter="url(#glow)"
+    />
+    <circle
+      cx="80"
+      cy="180"
+      r="2"
+      fill="white"
+      className="constellation-dot"
+      filter="url(#glow)"
+    />
+  </svg>
+);
+// ------------------------------------------------------------------
 
 const Contact: React.FC = () => {
-    const sectionRef = useRef<HTMLElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const infoRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            gsap.fromTo(sectionRef.current?.querySelectorAll('.form-field'),
-                { y: 50, autoAlpha: 0 },
-                {
-                    y: 0,
-                    autoAlpha: 1,
-                    duration: 1,
-                    ease: 'power3.out',
-                    stagger: 0.15,
-                    scrollTrigger: {
-                        trigger: sectionRef.current?.querySelector('form'),
-                        start: 'top 80%',
-                        toggleActions: 'play none none reverse',
-                    }
-                }
-            );
-        }, sectionRef);
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Animate Constellations
+      gsap.fromTo(
+        ".constellation-line",
+        {
+          strokeDashoffset: gsap.getProperty(
+            ".constellation-line",
+            "strokeDasharray"
+          ),
+        },
+        {
+          strokeDashoffset: 0,
+          duration: 2,
+          ease: "power2.inOut",
+          stagger: 0.1,
+          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
+        }
+      );
+      gsap.fromTo(
+        ".constellation-dot",
+        { scale: 0, autoAlpha: 0 },
+        {
+          scale: 1,
+          autoAlpha: 1,
+          duration: 1,
+          ease: "back.out(2)",
+          stagger: 0.05,
+          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
+        }
+      );
 
-        return () => ctx.revert();
-    }, []);
+      // Animate Title
+      gsap.fromTo(
+        ".contact-title-reveal",
+        { y: 50, autoAlpha: 0 },
+        {
+          y: 0,
+          autoAlpha: 1,
+          duration: 1,
+          ease: "power3.out",
+          stagger: 0.15,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 70%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        // Handle form submission logic here
-        console.log('Form submitted');
-    };
+      // Animate Info Cards
+      gsap.fromTo(
+        ".info-card",
+        { y: 50, autoAlpha: 0 },
+        {
+          y: 0,
+          autoAlpha: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          stagger: 0.15,
+          scrollTrigger: {
+            trigger: infoRef.current,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+    }, sectionRef);
 
-    return (
-        <section ref={sectionRef} id="contact" className="py-24 px-4 relative overflow-hidden">
-            <div className="max-w-3xl mx-auto text-center">
-                <h2 className="font-space-grotesk text-4xl md:text-5xl font-bold reveal-on-scroll">
-                    Let's Build Together
-                </h2>
-                <p className="mt-4 text-white/70 max-w-2xl mx-auto reveal-on-scroll">
-                    Have a project in mind or just want to say hello? We'd love to hear from you.
-                    Fill out the form below or send us an email.
-                </p>
-            </div>
-            
-            <div className="max-w-7xl mx-auto mt-16">
-            <div className="min-h-screen  flex items-center justify-center px-6 py-20">
-      <motion.div
-        className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl w-full"
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-      >
-        {/* WhatsApp Card */}
-        <motion.div
-          className="rounded-2xl bg-gradient-to-br from-green-900 to-green-800 p-8 text-white shadow-2xl flex flex-col justify-between"
-          whileHover={{ scale: 1.02 }}
-          transition={{ type: "spring", stiffness: 120 }}
+    return () => ctx.revert();
+  }, []);
+
+  const contactInfo = [
+    {
+      icon: <MessageSquare className="text-green-400" size={32} />, // Increased size
+      title: "WhatsApp",
+      info: "Chat with us directly",
+      href: "https://wa.me/+918209965066?text=Hi! I'm interested in your web development services.",
+    },
+    {
+      icon: <Mail className="text-purple-400" size={32} />, // Increased size
+      title: "Email Us",
+      info: "webierwebdev@gmail.com",
+      href: "mailto:webierwebdev@gmail.com",
+    },
+    {
+      icon: <Phone className="text-blue-400" size={32} />, // Increased size
+      title: "Call Us",
+      info: "+91 94607 01877 / +91 94140 41181",
+      href: "tel:+919460701877", // Links to the first number
+    },
+    {
+      icon: <MapPin className="text-red-400" size={32} />, // Increased size
+      title: "Visit Us",
+      info: "Udaipur, Rajasthan, India",
+      href: "#", // Add a Google Maps link here if you want
+    },
+  ];
+
+  return (
+    <section
+      ref={sectionRef}
+      id="contact"
+      className="py-24 px-4 relative overflow-hidden min-h-screen flex flex-col items-center justify-center"
+    >
+      {/* Background Constellations */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-20">
+        <div className="absolute top-[10%] left-[5%] w-[30vw] h-[30vh] opacity-50">
+          <Constellation />
+        </div>
+        <div className="absolute bottom-[10%] right-[5%] w-[30vw] h-[30vh] opacity-50 scale-x-[-1]">
+          <Constellation />
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 w-full">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="font-space-grotesk text-4xl md:text-5xl font-bold contact-title-reveal">
+            Let's Build Together
+          </h2>
+          <p className="mt-4 text-white/70 max-w-2xl mx-auto contact-title-reveal">
+            Have a project in mind or just want to say hello? Get in touch
+            directly via any of the methods below.
+          </p>
+        </div>
+
+        <div
+          ref={infoRef}
+          // --- UPDATED GRID ---
+          // Increased max-width and gap
+          className="max-w-5xl mx-auto mt-20 grid grid-cols-1 md:grid-cols-2 gap-8"
         >
-          <div>
-            <div className="flex items-center mb-4">
-              <MessageSquare className="text-green-400 mr-3" size={26} />
-              <h2 className="text-xl font-bold">Chat with us on WhatsApp</h2>
-            </div>
-
-            <p className="text-green-100 mb-6 leading-relaxed">
-              Get instant responses to your queries! Chat with us directly on
-              WhatsApp for quick project discussions, quotes, and support.
-            </p>
-
-            <div className="space-y-4">
-              <div className="bg-green-800/50 rounded-lg p-4 border border-green-600/30">
-                <h4 className="text-green-200 font-semibold mb-1">
-                  Quick Project Quote
-                </h4>
-                <p className="text-green-100 text-sm">
-                  Send us your project requirements and get a free quote within
-                  24 hours.
-                </p>
-              </div>
-
-              <div className="bg-green-800/50 rounded-lg p-4 border border-green-600/30">
-                <h4 className="text-green-200 font-semibold mb-1">
-                  24/7 Support
-                </h4>
-                <p className="text-green-100 text-sm">
-                  Need help with your existing website? We’re just a message
-                  away.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-8">
-            <a
-              href="https://wa.me/+919460701877?text=Hi! I'm interested in your web development services."
+          {contactInfo.map((item) => (
+            <motion.a
+              key={item.title}
+              href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center gap-3 group"
+              // --- UPDATED CARD STYLES ---
+              // Increased padding, gap, rounding, and hover effects
+              className="info-card flex flex-col items-start gap-5 p-10 rounded-2xl bg-white/5 border border-white/10 h-full
+                         transition-all duration-300 ease-out
+                         hover:border-purple-400 hover:shadow-[0_0_30px_rgba(192,132,252,0.5)] hover:-translate-y-2"
+              whileHover={{ scale: 1.03 }}
             >
-              <MessageSquare
-                size={20}
-                className="group-hover:scale-110 transition-transform"
-              />
-              Start WhatsApp Chat
-            </a>
-            <p className="text-green-200 text-sm text-center mt-3">
-              Click the button above to start a conversation with us on WhatsApp
-            </p>
-          </div>
-        </motion.div>
-
-        {/* Right Section (Info + Guarantee) */}
-        <div className="flex flex-col gap-6">
-          {[
-            {
-              icon: <Mail className="text-green-400" size={22} />,
-              title: "Email Us",
-              info: "webierwebdev@gmail.com",
-            },
-            {
-              icon: <Phone className="text-blue-400" size={22} />,
-              title: "Call Us",
-              info: "+91 94607 01877 / +91 94140 41181",
-            },
-            {
-              icon: <MapPin className="text-purple-400" size={22} />,
-              title: "Visit Us",
-              info: "Udaipur, Rajasthan, India",
-            },
-          ].map((item, i) => (
-            <motion.div
-              key={i}
-              className="rounded-2xl bg-[#0f172a] p-6 text-white border border-white/5"
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.2 + 0.4, duration: 0.6 }}
-              whileHover={{ scale: 1.03, rotate: 0.5 }}
-            >
-              <div className="flex items-center gap-4">
-                {item.icon}
-                <div>
-                  <h3 className="text-lg font-semibold">{item.title}</h3>
-                  <p className="text-gray-300 text-sm">{item.info}</p>
-                </div>
+              <div className="flex-shrink-0">{item.icon}</div>
+              <div>
+                <h4 className="text-2xl font-semibold text-white">
+                  {" "}
+                  {/* Increased text size */}
+                  {item.title}
+                </h4>
+                <p className="text-lg text-white/70">{item.info}</p>{" "}
+                {/* Increased text size */}
               </div>
-            </motion.div>
+            </motion.a>
           ))}
-
-          <motion.div
-            className="rounded-2xl  bg-gradient-to-r from-green-900/30 to-blue-900/30 p-6 border border-green-600/20"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.0, duration: 0.6 }}
-          >
-            <h3 className="text-lg font-semibold text-white mb-1">
-              Quick Response Guarantee
-            </h3>
-            <p className="text-gray-300 text-sm">
-              We typically respond to all inquiries within 24 hours. For urgent
-              projects, feel free to call us directly.
-            </p>
-          </motion.div>
         </div>
-      </motion.div>
-    </div>
-            </div>
-
-            <div className="mt-20 text-center text-white/60">
-                <p>Or reach us directly at:</p>
-                <a href="mailto:hello@webier.com" className="font-space-grotesk text-lg text-purple-400 hover:text-white transition-colors duration-300 flex items-center justify-center gap-2 mt-2">
-                    <FaEnvelope />
-                    <span>webierwebdev@gmail.com</span>
-                </a>
-            </div>
-        </section>
-    );
+      </div>
+    </section>
+  );
 };
 
 export default Contact;
