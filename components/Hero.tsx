@@ -1,16 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
-// --- NEW FAUX 3D CURVE COMPONENT ---
-// This component will create the illusion of glowing 3D curves.
 const Faux3DCurve: React.FC<{
-  startAngle: number; // Angle where the curve starts (0-360)
-  arcLength: number; // How long the arc is in degrees
-  radiusOffset: number; // How far from the center the curve is positioned
-  direction: "clockwise" | "counter-clockwise"; // Direction of animation
-  className?: string; // Additional classes for styling
-  numDots?: number; // Number of dots in the curve
-  animationDuration?: number; // Duration of animation
+  startAngle: number;
+  arcLength: number;
+  radiusOffset: number;
+  direction: "clockwise" | "counter-clockwise";
+  className?: string;
+  numDots?: number;
+  animationDuration?: number;
 }> = ({
   startAngle,
   arcLength,
@@ -27,7 +25,6 @@ const Faux3DCurve: React.FC<{
     const curveElement = curveRef.current;
     if (!curveElement) return;
 
-    // Calculate positions for dots along the arc
     gsap.set(dotRefs.current, {
       position: "absolute",
       left: "50%",
@@ -42,8 +39,7 @@ const Faux3DCurve: React.FC<{
         const angle = startAngle + (arcLength / (numDots - 1)) * i;
         const radian = (angle * Math.PI) / 180;
 
-        // Calculate a slight z-offset to create a 3D feel
-        const zOffset = Math.sin((i / (numDots - 1)) * Math.PI) * 10; // Arc from 0 to 10 back to 0
+        const zOffset = Math.sin((i / (numDots - 1)) * Math.PI) * 10;
 
         gsap.set(dot, {
           x:
@@ -52,20 +48,19 @@ const Faux3DCurve: React.FC<{
           y:
             Math.sin(radian) * (180 + radiusOffset) +
             (direction === "clockwise" ? i * 0.5 : -i * 0.5),
-          z: zOffset, // Apply Z-offset for faux 3D
-          opacity: 0.2 + Math.random() * 0.4, // Random initial opacity
-          scale: 0.5 + Math.random() * 0.5, // Random initial scale
+          z: zOffset,
+          opacity: 0.2 + Math.random() * 0.4,
+          scale: 0.5 + Math.random() * 0.5,
         });
 
-        // Animate movement along the curve
         gsap.to(dot, {
           rotation: direction === "clockwise" ? "+=360" : "-=360",
           x:
             Math.cos(radian) * (180 + radiusOffset) +
-            (direction === "clockwise" ? "+=10" : "-=10"), // Slight movement
+            (direction === "clockwise" ? "+=10" : "-=10"),
           y:
             Math.sin(radian) * (180 + radiusOffset) +
-            (direction === "clockwise" ? "+=10" : "-=10"), // Slight movement
+            (direction === "clockwise" ? "+=10" : "-=10"),
           opacity: 0.4,
           duration: animationDuration,
           repeat: -1,
@@ -74,10 +69,9 @@ const Faux3DCurve: React.FC<{
           delay:
             i *
             (animationDuration / numDots) *
-            (direction === "clockwise" ? 1 : -1), // Staggered animation
+            (direction === "clockwise" ? 1 : -1),
         });
 
-        // Animate pulsating glow
         gsap.to(dot, {
           boxShadow: `0 0 10px 2px rgba(255,255,255,0.7)`,
           backgroundColor: "white",
@@ -85,10 +79,10 @@ const Faux3DCurve: React.FC<{
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut",
-          delay: Math.random() * 2, // Randomize pulse start
+          delay: Math.random() * 2,
         });
       });
-    }, curveRef); // Use curveRef for GSAP context
+    }, curveRef);
 
     return () => ctx.revert();
   }, [
@@ -116,7 +110,6 @@ const Faux3DCurve: React.FC<{
     </div>
   );
 };
-// --- END OF NEW COMPONENT ---
 
 const Hero: React.FC = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -126,14 +119,12 @@ const Hero: React.FC = () => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
 
-      // Glowing arcs animation (back to simple scaling for div rings)
       tl.fromTo(
         ".glow-arc",
         { scale: 0.5, opacity: 0 },
         { scale: 1, opacity: 1, duration: 2, ease: "power3.out", stagger: 0.2 }
       );
 
-      // Letters animation
       tl.fromTo(
         ".hero-letter",
         { opacity: 0, y: 0, scale: 0.5 },
@@ -148,7 +139,6 @@ const Hero: React.FC = () => {
         "-=1.5"
       );
 
-      // Tagline + button animation
       tl.fromTo(
         ".hero-content > *",
         { opacity: 0, y: 30 },
@@ -156,7 +146,6 @@ const Hero: React.FC = () => {
         "-=0.8"
       );
 
-      // Constellation animation
       tl.fromTo(
         ".constellation-line",
         {
@@ -187,7 +176,6 @@ const Hero: React.FC = () => {
         "-=1.5"
       );
 
-      // --- CONTINUOUS ROTATION FOR DIV RINGS (REVERTED) ---
       gsap.to(".glow-arc-1", {
         rotate: "+=360",
         duration: 80,
@@ -200,7 +188,6 @@ const Hero: React.FC = () => {
         repeat: -1,
         ease: "none",
       });
-      // --- END REVERTED ANIMATION ---
 
       gsap.to(".constellation-dot", {
         scale: 1.3,
@@ -212,9 +199,8 @@ const Hero: React.FC = () => {
         stagger: (index) => index * 0.15,
       });
 
-      // 🌀 Parallax movement — only for desktop
       const parallaxHandler = (e: MouseEvent) => {
-        if (window.innerWidth < 768) return; // disable on mobile
+        if (window.innerWidth < 768) return;
         const xPercent = (e.clientX / window.innerWidth - 0.5) * 2;
         const yPercent = (e.clientY / window.innerHeight - 0.5) * 2;
 
@@ -230,14 +216,12 @@ const Hero: React.FC = () => {
           duration: 1,
           ease: "power2.out",
         });
-        // --- ADDED PARALLAX FOR NEW CURVES ---
         gsap.to(".faux-curve-layer", {
           x: -xPercent * 5,
           y: -yPercent * 5,
           duration: 1,
           ease: "power2.out",
         });
-        // --- END ADDED PARALLAX ---
       };
 
       window.addEventListener("mousemove", parallaxHandler);
@@ -315,7 +299,6 @@ const Hero: React.FC = () => {
       id="hero"
       className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden pt-[80px] sm:pt-[100px] md:pt-[120px]"
     >
-      {/* Constellations - Background layer */}
       <div className="parallax-layer-0 absolute inset-0 w-full h-full pointer-events-none z-0 opacity-40">
         <div className="absolute top-[50%] left-[5%] w-[30vw] h-[30vh] opacity-50">
           <Constellation />
@@ -325,10 +308,8 @@ const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Glowing arcs + WEBIER inside center */}
       <div className="parallax-layer-3 relative flex items-center justify-center pointer-events-none z-10 translate-y-[-3%] sm:translate-y-[-2%] md:translate-y-[-1%]">
         <div className="relative w-[60vmin] sm:w-[65vmin] md:w-[70vmin] h-[60vmin] sm:h-[65vmin] md:h-[70vmin] flex items-center justify-center">
-          {/* --- ORIGINAL DIV RINGS (REVERTED) --- */}
           <div
             className="glow-arc glow-arc-1 absolute inset-0 rounded-full border-[2px] border-white/80"
             style={{
@@ -340,14 +321,11 @@ const Hero: React.FC = () => {
             className="glow-arc glow-arc-2 absolute inset-[18%] rounded-full border-[1px] border-white/50 opacity-70"
             style={{ boxShadow: "0 0 60px 10px rgba(255, 255, 255, 0.15)" }}
           ></div>
-          {/* --- END ORIGINAL DIV RINGS --- */}
 
-          {/* --- NEW FAUX 3D CURVES ADDED --- */}
-          {/* Placing 4 curves to connect inner and outer rings */}
           <Faux3DCurve
             startAngle={-10}
             arcLength={80}
-            radiusOffset={-50} // Adjust radiusOffset to place curves between the rings
+            radiusOffset={-50}
             direction="clockwise"
             className="faux-curve-layer"
             numDots={10}
@@ -380,9 +358,7 @@ const Hero: React.FC = () => {
             numDots={10}
             animationDuration={4.2}
           />
-          {/* --- END NEW FAUX 3D CURVES --- */}
 
-          {/* WEBIER text centered */}
           <div className="absolute flex items-center justify-center">
             {letters.map((letter, index) => {
               const angles = [-36, -20, -5, 8, 21, 36];
@@ -405,7 +381,6 @@ const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Tagline + Button below circle */}
       <div className="hero-content parallax-layer-1 relative z-20 flex flex-col items-center ">
         <p className="text-base sm:text-xl md:text-2xl text-white/90 tracking-wider">
           WEB EXPERIENCES, PERFECTED.
