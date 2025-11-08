@@ -225,8 +225,8 @@ const Hero: React.FC = () => {
           {/* WEBIER text centered */}
           <div className="absolute flex items-center justify-center">
             {letters.map((letter, index) => {
-              // Shifted all angles by +3 degrees to move the word to the right
-              const angles = [-35, -18, -4, 10, 22, 36]; // Was: [-38, -21, -7, 7, 19, 33]
+              // Corrected kerning:
+              const angles = [-36, -20, -5, 8, 21, 36];
               const angle = angles[index];
 
               return (
