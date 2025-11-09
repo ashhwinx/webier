@@ -77,16 +77,14 @@ const founders = [
   {
     name: "Harshit",
     role: "Co-Founder & Creative Developer",
-    quote:
-      "I don’t just build websites  I build moments that glitch your brain (in a good way). Pixels? I make them dance. Code? That’s just my paintbrush.",
+    quote: "doing somethin'",
     instagramHandle: "hr.shtt",
     instagramUrl: "https://www.instagram.com/hr.shtt/",
   },
   {
     name: "Ashwin",
     role: "Co-Founder & Lead Strategist",
-    quote:
-      "I’m the blueprint guy. I turn chaos into clean flow. Ideas come messy  I make them move like they were always meant to.",
+    quote: "im the guy in the backend",
     instagramHandle: "axshwiin",
     instagramUrl: "https://www.instagram.com/axshwiin/",
   },
